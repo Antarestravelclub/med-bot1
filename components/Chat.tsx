@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Toggle } from "./ui/toggle";
 import MicFFT from "./MicFFT";
 import { cn } from "@/utils";
-import { useHume } from "@/utils/useHume"; // Updated import path
+import { useHume } from "@/lib/useHume";
 import { useState, useEffect } from "react";
 import Expressions from "./Expressions";
 import Messages from "./Messages";
@@ -41,14 +41,29 @@ export default function Chat({ accessToken }: { accessToken: string }) {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-grow overflow-auto p-4">
-        <Messages messages={conversation} />
+        <div className="space-y-4">
+          {conversation.map((message, index) => (
+            <div key={index} className="p-4 rounded-lg bg-gray-100">
+              <p className="font-bold">{message.role === 'user' ? 'You' : 'Bot'}:</p>
+              <pre className="whitespace-pre-wrap break-words mt-2 max-h-[500px] overflow-y-auto">
+                {message.content}
+              </pre>
+              {message.emotions && (
+                <div className="mt-2 text-sm text-gray-600">
+                  Emotions: {message.emotions.map(e => `${e.name} (${e.score.toFixed(2)})`).join(', ')}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
       <div className="p-4 border-t">
-        <textarea
-          className="w-full p-2 border rounded resize-y min-h-[100px] max-h-[300px]"
+        <input
+          type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message here..."
+          className="w-full p-2 border rounded"
         />
         <Button onClick={handleSendMessage} className="mt-2">
           Send
