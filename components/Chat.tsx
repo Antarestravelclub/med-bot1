@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Toggle } from "./ui/toggle";
 import MicFFT from "./MicFFT";
 import { cn } from "@/utils";
-import { useHume } from "@/lib/useHume";
+import { useHume } from "@/utils/useHume"; // Updated import path
 import { useState, useEffect } from "react";
 import Expressions from "./Expressions";
 import Messages from "./Messages";
@@ -113,4 +113,4 @@ export default function Chat({ accessToken }: { accessToken: string }) {
       </div>
     </div>
   );
-} retard
+}
